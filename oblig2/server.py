@@ -33,13 +33,13 @@ while True:
             connectionSocket.send(outputdata[i].encode())
             connectionSocket.send("\r\n".encode())
             connectionSocket.close()
-     except IOError:
-    #Send response message for file not found
+    except IOError:
+         #Send response message for file not found
         header = "HTTP/1.1 404 Not Found\r\nContent-Type: text/html\r\n\r\n"
         response = "<html><head></head><body><h1>404 Not Found</h1></body></html>\r\n"
         connectionSocket.send(header.encode())
         connectionSocket.send(response())
-    #Close client socket
+       #Close client socket
         connectionSocket.close()
 
     serverSocket.close()
