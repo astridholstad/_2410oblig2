@@ -9,7 +9,7 @@ import sys # In order to terminate the program
 # if the requested file is not present in the server, the server should sendan HTTP “404 Not Found” message back to the client
 
 serverSocket = socket(AF_INET, SOCK_STREAM)
-serverPort = 5500
+serverPort = 5501
 serverSocket.bind(('', serverPort))
 serverSocket.listen(1)
 
@@ -33,14 +33,14 @@ while True:
             connectionSocket.send(outputdata[i].encode())
             connectionSocket.send("\r\n".encode())
             connectionSocket.close()
-    except IOError:
+     except IOError:
     #Send response message for file not found
-    header = "HTTP/1.1 404 Not Found\r\nContent-Type: text/html\r\n\r\n"
-    response = "<html><head></head><body><h1>404 Not Found</h1></body></html>\r\n"
-    connectionSocket.send(header.encode())
-    connectionSocket.send(response())
+        header = "HTTP/1.1 404 Not Found\r\nContent-Type: text/html\r\n\r\n"
+        response = "<html><head></head><body><h1>404 Not Found</h1></body></html>\r\n"
+        connectionSocket.send(header.encode())
+        connectionSocket.send(response())
     #Close client socket
-    connectionSocket.close()
+        connectionSocket.close()
 
     serverSocket.close()
     sys.exit()#Terminate the program after sending the corresponding data
