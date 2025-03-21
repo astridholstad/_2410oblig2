@@ -12,7 +12,7 @@ import sys
 # and the path at which the requested object is stored at the server (hint: argeparse)
 #  to run the client: python3 client.py -i <server_ip> -p <server_port> -f filename
 
-def send_req(server_ip, server_port, filename)
+def send_req(server_ip, server_port, filename):
     #the method creates a TCP connection to the server, sends a http get req,
     #and return the servers response
     #first creaate a TCP socket:
@@ -39,7 +39,7 @@ def send_req(server_ip, server_port, filename)
         return f"Error: {e}"
 
  #main method
-def main()
+def main():
     #use command line parsing
     parser = argparse.ArgumentParser('description=HTTP Client')   
     parser.add_argument('-i', '--server_ip', required=True, help='Server IP adress')
@@ -49,7 +49,7 @@ def main()
     args = parser.parse_args()
 
     #send a http req and get response 
-    response = = send_req(args.server_ip, args.server_port, args.filename)
+    response = send_req(args.server_ip, args.server_port, args.filename)
     #print the response from server
     print(response)
 
