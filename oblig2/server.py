@@ -9,7 +9,7 @@ import sys # In order to terminate the program
 # if the requested file is not present in the server, the server should sendan HTTP “404 Not Found” message back to the client
 
 serverSocket = socket(AF_INET, SOCK_STREAM)
-serverPort = 5505
+serverPort = 5501
 serverSocket.bind(('', serverPort))
 serverSocket.listen(1)
 
