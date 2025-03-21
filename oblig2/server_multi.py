@@ -75,7 +75,7 @@ def main():
 	#allow reuse of the socket 
 	serverSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 	#define my port, 
-    serverPort = 12000    
+    serverPort = 5501   
 
     try:
 		serverSocket.bind('', serverPort)
