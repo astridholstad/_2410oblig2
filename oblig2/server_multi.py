@@ -49,19 +49,19 @@ def handleClient(connectionSocket, addr):
 		header += "Content-Type: text/html\r\n\r\n"
 
 		connectionSocket.send(header.encode())
-        connectionSocket.send(response_content)
+        connectionSocket.send(response_content.encode())
 	
-	exceptIOError:
+	except IOError:
 	#send response message if not found
 		header = "HTTP/1.1 404 Not Found\r\n"
         header += f"Date: {timeNow()}\r\n"
         header += "Server: MultiThreaded-Server\r\n"
-        header += "Content-Type: text/html\r\n"
+        header += "Content-Type: text/html\r\n\r\n"
 	
 		response_content = "<html><head><title>404 Not Found</title></head><body><h1>404 Not Found</h1></body></html>"
 	
 	 	connectionSocket.send(header.encode())
-        connectionSocket.send(response_content.encode())
+        connectionSocket.send(response_content)
 	
 	except Exception as e:
         print(f"Error handling client request: {e}")
@@ -86,16 +86,14 @@ def main():
     except:
 	    print("Connection failed")
 	    sys.exit()
-
 	#listen for further connections, 5 is max qued connections	
-		
     serverSocket.listen(5)
     print('Server is ready for further connections')	
 
 	try: 
     	while True:
 			connectionSocket, addr = serverSocket.accept()
-			print("Server connected by: {addr} at {timeNow()}")
+			print(f"Server connected by: {addr} at {timeNow()}")
 			#create a thread for a new connection
 			client_thread = threading.Thread(target=handleClient, args=(connectionSocket, addr))
 			client_thread.daemon = True # set as deamon so it can exist while the main thread exitst
