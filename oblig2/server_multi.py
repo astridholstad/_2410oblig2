@@ -47,9 +47,9 @@ def handleClient(connectionSocket, addr):
 		header += f"Time: {timeNow()}\r\n"
 		header += "Server: MultiThreaded-Server\r\n"
 		header += "Content-Type: text/html\r\n\r\n"
-
+		
 		connectionSocket.send(header.encode())
-        connectionSocket.send(response_content.encode())
+        connectionSocket.send(response_content)
 	
 	except IOError:
 	#send response message if not found
@@ -59,9 +59,8 @@ def handleClient(connectionSocket, addr):
         header += "Content-Type: text/html\r\n\r\n"
 	
 		response_content = "<html><head><title>404 Not Found</title></head><body><h1>404 Not Found</h1></body></html>"
-	
 	 	connectionSocket.send(header.encode())
-        connectionSocket.send(response_content)
+        connectionSocket.send(response_content.encode())
 	
 	except Exception as e:
         print(f"Error handling client request: {e}")
