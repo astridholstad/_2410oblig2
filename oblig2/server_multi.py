@@ -11,32 +11,32 @@ import time
 # When it receives a TCP connection request from a client
 #  it will set up the TCP connection through another port and services the client request in a separate thread
 # There will be a separate TCP connection in a separate thread for each request/response pair
-def timeNow()
+def timeNow():
 	"""
 	returns the time of day
 	"""
 	return time.ctime(time.time())
 
-def handleClient(connection_socket, addr):
+def handleClient(connectionSocket, addr):
 	#this method handles an http client req in its own seperate thread
 	#handles empty req
 	try:
-		message = connection_socket.recv(1024).decode()
+		message = connectionSocket.recv(1024).decode()
 		print(f"Recieved message from {addr} at {timeNow()}")
 		print(f"Request: {message.splitlines()[0] if message else 'Empty request'}")
 
 		#parsing the http req to exstract get the filename
 		if not message:
 			#empty req, and closing the connection
-			connection_socket.close()
+			connectionSocket.close()
 			return
 		#get the filename from the req
 		filename = message.split()[1]
-		if filename.startwith('/'):
+		if filename.startswith('/'):
 			filename =filename[1:]
 
 		#if not a spesificed file requested, use the index.html file in folder
-		if filename = "":
+		if filename == "":
 			filename = "index.html"
 
 		#now open and read the file
@@ -46,6 +46,7 @@ def handleClient(connection_socket, addr):
 		header = "HTTP/1.1 200 OK\r\n"	
 		header += f"Time: {timeNow()}\r\n"
 		header += "Server: MultiThreaded-Server\r\n"
+		header += "Content-Type: text/html\r\n\r\n"
 
 		connectionSocket.send(header.encode())
         connectionSocket.send(response_content)
@@ -57,17 +58,19 @@ def handleClient(connection_socket, addr):
         header += "Server: MultiThreaded-Server\r\n"
         header += "Content-Type: text/html\r\n"
 	
+		response_content = "<html><head><title>404 Not Found</title></head><body><h1>404 Not Found</h1></body></html>"
+	
 	 	connectionSocket.send(header.encode())
         connectionSocket.send(response_content.encode())
+	
 	except Exception as e:
         print(f"Error handling client request: {e}")
+	
     finally:
         # Close the client connection
         connectionSocket.close()
         print(f"Connection with {addr} closed at {timeNow()}")
 
-	
-	
 	
 def main():
 	
@@ -75,10 +78,10 @@ def main():
 	#allow reuse of the socket 
 	serverSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 	#define my port, 
-    serverPort = 5501   
+    serverPort = 5502  
 
     try:
-		serverSocket.bind('', serverPort)
+		serverSocket.bind(('', serverPort))
 		print(f'Server startes on port {serverPort} at {timeNow()}')
     except:
 	    print("Connection failed")
@@ -90,7 +93,6 @@ def main():
     print('Server is ready for further connections')	
 
 	try: 
-	
     	while True:
 			connectionSocket, addr = serverSocket.accept()
 			print("Server connected by: {addr} at {timeNow()}")
@@ -104,11 +106,14 @@ def main():
 
 			thread.start_new_thread(handleClient, (connectionSocket,))
     	
-	
-	exept:
+	except KeyboardInterrupt:
+        print("\nShutting down server...")
+    except Exception as e:
+        print(f"Error in main thread: {e}")
+    finally:
         # Close the server socket
         serverSocket.close()
-	
-		
+        print("Server socket closed")
+
 if __name__ == '__main__':
 	main()
