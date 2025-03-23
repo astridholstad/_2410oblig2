@@ -47,10 +47,11 @@ def handleClient(connectionSocket, addr):
 		header += f"Time: {timeNow()}\r\n"
 		header += "Server: MultiThreaded-Server\r\n"
 		header += "Content-Type: text/html\r\n\r\n"
-		
+		#
+		#
 		connectionSocket.send(header.encode())
-        connectionSocket.send(response_content)
-	
+    	connectionSocket.send(response_content)
+	#
 	except IOError:
 	#send response message if not found
 		header = "HTTP/1.1 404 Not Found\r\n"
