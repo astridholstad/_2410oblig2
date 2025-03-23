@@ -23,24 +23,23 @@ while True:
 
         filename = message.split()[1]
         f = open(filename[1:])
-        outputdata = f.read
+        outputdata = f.read()
         #Send one HTTP header line into socket, 200 ok
         header = "HTTP/1.1 200 OK \r\nContent-Type: text/html\r\n\r\n"
         connectionSocket.send(header.encode())
 
         #Send the content of the requested file to the client
-        for i in range(0, len(outputdata)):
-            connectionSocket.send(outputdata[i].encode())
-            connectionSocket.send("\r\n".encode())
-            connectionSocket.close()
+        connectionSocket.send(outputdata.encode())  # Simplified - we can send all at once
+        connectionSocket.send("\r\n".encode())
+        connectionSocket.close()
     except IOError:
          #Send response message for file not found
         header = "HTTP/1.1 404 Not Found\r\nContent-Type: text/html\r\n\r\n"
         response = "<html><head></head><body><h1>404 Not Found</h1></body></html>\r\n"
         connectionSocket.send(header.encode())
-        connectionSocket.send(response())
+        connectionSocket.send(response.encode())
        #Close client socket
         connectionSocket.close()
 
-    serverSocket.close()
-    sys.exit()#Terminate the program after sending the corresponding data
+serverSocket.close()
+sys.exit()#Terminate the program after sending the corresponding data

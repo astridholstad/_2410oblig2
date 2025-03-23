@@ -18,6 +18,8 @@ def send_req(server_ip, server_port, filename):
     #first creaate a TCP socket:
     try: 
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+         #Connect to the server
+        client_socket.connect((server_ip, int(server_port)))
         #path need to be valid: start with /
         path = f'/{filename}' if not filename.startswith("/") else filename
         http_req = f"GET {path} HTTP/1.1\r\nHost: {server_ip}\r\nConnection: close\r\n\r\n"
