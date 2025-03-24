@@ -52,11 +52,6 @@ def handleClient(connectionSocket, addr):
     except Exception as e:
         print(f"Error handling client request: {e}")
     
-    #finally:
-        # Close the client connection
-        #connectionSocket.close()
-       # print(f"Connection with {addr} closed at {timeNow()}")
-
 def main():
     serverSocket = socket(AF_INET, SOCK_STREAM)
     #allow reuse of the socket 
