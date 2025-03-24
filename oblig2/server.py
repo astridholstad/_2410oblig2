@@ -1,13 +1,6 @@
 from socket import *
 import sys # In order to terminate the program
 
-#i will develop a server that handles one http req at a time
-#the web server should accept and parse a http req 
-#get the requested file from the server’s file system
-# create an HTTP response message consisting of the requested file preceded by header line
-# and then send the response directly to the client
-# if the requested file is not present in the server, the server should sendan HTTP “404 Not Found” message back to the client
-
 serverSocket = socket(AF_INET, SOCK_STREAM)
 serverPort = 5501
 serverSocket.bind(('', serverPort))

@@ -1,16 +1,9 @@
 from socket import *
 import sys 
 import threading
-import os
 import time
+import os
 
-
-
-# You should implement a multithreaded server that is capable of serving multiple requests simultaneously
-# Using threading, first create a main thread in which your modified server listens for clients at a fixed port
-# When it receives a TCP connection request from a client
-#  it will set up the TCP connection through another port and services the client request in a separate thread
-# There will be a separate TCP connection in a separate thread for each request/response pair
 def timeNow():
     """
     returns the time of day
@@ -65,14 +58,12 @@ def handleClient(connectionSocket, addr):
        # print(f"Connection with {addr} closed at {timeNow()}")
 
 def main():
-    
     serverSocket = socket(AF_INET, SOCK_STREAM)
     #allow reuse of the socket 
     serverSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
     #define my port, 
-    serverPort = 5502  
-    server_ip = 127.0.0.1
-
+    serverPort = 5502
+    server_ip = '10.47.57.9'
     try:
         serverSocket.bind(('', serverPort))
         print(f'Connection startes on port{server_ip} : {serverPort} at {timeNow()}')
